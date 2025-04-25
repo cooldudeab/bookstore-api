@@ -1,0 +1,5 @@
+/vendor
+*.log
+.env
+*.sql
+.DS_Store
