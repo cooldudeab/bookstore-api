@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Bookstore</title>
+</head>
+<body>
+  <h1>Bookstore</h1>
+  <form id="searchForm">
+    <input type="text" id="title" placeholder="Search by Title">
+    <input type="text" id="author" placeholder="Filter by Author">
+    <input type="number" id="year" placeholder="Filter by Year">
+    <button type="submit">Search</button>
+  </form>
+  <ul id="bookList"></ul>
+
+  <script>
+    document.getElementById('searchForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const title = document.getElementById('title').value;
+      const author = document.getElementById('author').value;
+      const year = document.getElementById('year').value;
+
+      let url = `/books?`;
+      if (title) url += `title=${title}&`;
+      if (author) url += `author=${author}&`;
+      if (year) url += `publication_year=${year}`;
+
+      const res = await fetch(url);
+      const books = await res.json();
+
+      const list = document.getElementById('bookList');
+      list.innerHTML = '';
+      books.forEach(book => {
+        const li = document.createElement('li');
+        li.textContent = `${book.title} by ${book.author} (${book.publication_year})`;
+        list.appendChild(li);
+      });
+    });
+  </script>
+</body>
+</html>
